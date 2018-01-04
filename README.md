@@ -18,4 +18,8 @@ npm run build
 npm run build --report
 ```
 
+## 使い方
+* タスク名や詳細をダブルクリックで変更
+* D&Dでタスクの移動
+
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
