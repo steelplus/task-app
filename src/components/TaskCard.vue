@@ -4,7 +4,7 @@
       <div class="card-subject">
         <div class="card-title h5" @dblclick="click_subject(task.id, task.subject)">{{task.subject}}</div>
         <div class="form-group">
-          <input class="form-input task-card-hidden" @blur="change_title(task, titleInput.value)" type="text"
+          <input class="form-input d-hide" @blur="change_title(task, titleInput.value)" type="text"
                  placeholder="task title">
         </div>
       </div>
@@ -13,7 +13,7 @@
     <div class="card-description">
       <div class="card-body" @dblclick="click_description(task.id, task.description)">{{task.description}}</div>
       <div class="form-group">
-        <textarea class="form-input task-card-hidden" placeholder="task description" rows="3"
+        <textarea class="form-input d-hide" placeholder="task description" rows="3"
                   @blur="change_description(task, descriptionInput.value)"></textarea>
       </div>
     </div>
@@ -29,8 +29,8 @@
   const bindInputEvent = (inputElement, textElement, value) => {
     inputElement.value = value;
     inputElement.addEventListener('blur', () => {
-      inputElement.classList.add('task-card-hidden');
-      textElement.classList.remove('task-card-hidden');
+      inputElement.classList.add('d-hide');
+      textElement.classList.remove('d-hide');
     });
     inputElement.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
@@ -40,8 +40,8 @@
       }
     });
 
-    textElement.classList.add('task-card-hidden');
-    inputElement.classList.remove('task-card-hidden');
+    textElement.classList.add('d-hide');
+    inputElement.classList.remove('d-hide');
     inputElement.focus();
   };
 
@@ -84,9 +84,5 @@
   .task-card {
     margin-top: 3px;
     margin-bottom: 3px;
-  }
-
-  .task-card-hidden {
-    display: none;
   }
 </style>
