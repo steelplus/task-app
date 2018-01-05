@@ -1,7 +1,7 @@
 <template>
   <div class="columns timeline">
     <div class="column timeline-status1" @dragover.prevent @drop="drag_drop('status1')">
-      <add-task-modal />
+      <add-task-modal :add_task="add_task" />
       <div v-for="task in status1">
         <task-card :task="task" :change_title="change_title" :change_description="change_description"
                    :drag_start="drag_start" />
@@ -51,6 +51,16 @@
           this[this.draggingTask.status].filter(elm => elm.id !== this.draggingTask.id);
         this[status] = this[status].concat(this.draggingTask);
         this.draggingTask.status = status;
+      },
+      add_task: function addTask(subject, description, estimateHours) {
+        this.status1 = this.status1.concat({
+          subject,
+          description,
+          estimateHours,
+          status: 'status1',
+          // TODO ID採番
+          id: this.status1.length + 1,
+        });
       },
     },
     data() {

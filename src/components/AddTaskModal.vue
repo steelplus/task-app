@@ -33,8 +33,9 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button class="btn">
-            <i class="icon icon-arrow-right"></i>
+          <button class="btn" data-register-btn
+                  @click="add_task(subjectInput.value, descriptionInput.value, estimateHourInput.value)">
+            登録
           </button>
         </div>
       </div>
@@ -47,9 +48,17 @@
   /* eslint-disable object-shorthand,no-restricted-syntax */
 
   export default {
+    props: ['add_task'],
     name: 'add-task-modal',
+    data() {
+      return {
+        subjectInput: null,
+        descriptionInput: null,
+        estimateHourInput: null,
+      };
+    },
     mounted: function mounted() {
-      // モーダルを閉じる処理のバインド
+      // モーダルを閉じる(登録)処理のバインド
       const taskModalElement = document.querySelector('[data-add-task-modal]');
       const closeButtons = taskModalElement.getElementsByTagName('a');
       for (const closeButton of closeButtons) {
@@ -57,19 +66,33 @@
           taskModalElement.classList.remove('active');
         });
       }
+      const registerButton = document.querySelector('[data-register-btn]');
+      registerButton.addEventListener('click', () => {
+        taskModalElement.classList.remove('active');
+      });
+      taskModalElement.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && e.ctrlKey) {
+          const evt = document.createEvent('HTMLEvents');
+          evt.initEvent('click', true, true);
+          registerButton.dispatchEvent(evt);
+        }
+      });
 
       // モーダルを開く処理のバインド
       const modalOpenButton = document.querySelector('[data-add-task-button]');
       modalOpenButton.addEventListener('click', () => {
         taskModalElement.classList.add('active');
       });
+
+      // 各input要素をdataにバインド
+      this.subjectInput = document.getElementById('new-task-subject');
+      this.descriptionInput = document.getElementById('new-task-description');
+      this.estimateHourInput = document.getElementById('new-task-hour');
     },
   };
 </script>
 
 <style scoped>
-  @import '../../node_modules/spectre.css/dist/spectre-icons.min.css';
-
   .content {
     position: relative;
   }

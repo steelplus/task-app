@@ -8,6 +8,7 @@
                  placeholder="task title">
         </div>
       </div>
+      <!--TODO 担当者表示-->
       <div class="card-subtitle text-gray">担当者：test</div>
     </div>
     <div class="card-description">
