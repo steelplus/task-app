@@ -1,5 +1,5 @@
 <template>
-  <transition name="slide-fade">
+  <transition name="task">
     <div class="card task-card" draggable="true" :id="'task-card-'+ task.id">
       <div class="card-header">
         <div class="card-subject">
@@ -49,19 +49,24 @@
   };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .task-card {
     margin-top: 3px;
     margin-bottom: 3px;
+    cursor: move;
+    .card-title {
+      cursor: text;
+    }
+    .card-body {
+      cursor: text;
+    }
   }
 
-  /* enter、 leave アニメーションで異なる間隔やタイミング関数を利用することができます */
-  .slide-fade-enter-active {
-    transition: all .3s ease;
+  .task-enter-active, .task-leave-active {
+    transition: opacity .2s;
   }
 
-  .slide-fade-enter, .slide-fade-leave-to {
-    transform: translateY(10px);
-    opacity: 0;
+  .task-enter {
+    opacity: .5;
   }
 </style>
