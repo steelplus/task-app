@@ -2,7 +2,7 @@
   <div class="columns timeline">
     <div class="column timeline-status1">
       <add-task-modal :add_task="add_task" />
-      <draggable v-model="status1" :options="{group: 'tasks'}">
+      <draggable v-model="status1" class="timeline-draggable" :options="{group: 'tasks'}">
         <div v-for="task in status1" :key="task.index">
           <task-card :task="task" />
         </div>
@@ -10,7 +10,7 @@
     </div>
     <div class="column timeline-status2">
       <button class="btn tooltip tooltip-bottom centered" data-tooltip="現在アサインされているタスクが表示されます。">ASSIGNED TASKS</button>
-      <draggable v-model="status2" :options="{group: 'tasks'}">
+      <draggable v-model="status2" class="timeline-draggable" :options="{group: 'tasks'}">
         <div v-for="task in status2" :key="task.index">
           <task-card :task="task" />
         </div>
@@ -18,7 +18,7 @@
     </div>
     <div class="column timeline-status3">
       <button class="btn tooltip tooltip-bottom centered" data-tooltip="完了したタスクが表示されます。">FINISHED TASKS</button>
-      <draggable v-model="status3" :options="{group: 'tasks'}">
+      <draggable v-model="status3" class="timeline-draggable" :options="{group: 'tasks'}">
         <div v-for="task in status3" :key="task.index">
           <task-card :task="task" />
         </div>
@@ -72,6 +72,8 @@
             status: 'status1',
             index: 2,
           },
+        ],
+        status2: [
           {
             id: 3,
             projectId: '1',
@@ -82,7 +84,6 @@
             index: 3,
           },
         ],
-        status2: [],
         status3: [],
         draggingTask: null,
       };
@@ -105,6 +106,10 @@
     .timeline-status3 {
       background: #ffcacc;
       padding-top: 3px;
+    }
+
+    .timeline-draggable {
+      min-height: 100%;
     }
   }
 </style>
