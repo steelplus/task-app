@@ -26,14 +26,14 @@
 <script>
   /* eslint-disable object-shorthand,no-param-reassign */
 
-  const bindInputEvent = (inputElement, textElement, value) => {
+  const bindInputEvent = (inputElement, textElement, value, isCtrl) => {
     inputElement.value = value;
     inputElement.addEventListener('blur', () => {
       inputElement.classList.add('d-hide');
       textElement.classList.remove('d-hide');
     });
     inputElement.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
+      if (e.key === 'Enter' && (!isCtrl || (isCtrl && e.ctrlKey))) {
         const evt = document.createEvent('HTMLEvents');
         evt.initEvent('blur', true, true);
         inputElement.dispatchEvent(evt);
@@ -64,7 +64,7 @@
         this.titleInput = inputElement;
 
         // 値を変更する処理
-        bindInputEvent(inputElement, subjectElement, subject);
+        bindInputEvent(inputElement, subjectElement, subject, false);
       },
       click_description: function clickDescription(id, description) {
         const descriptionElement = document.getElementById(`task-card-${id}`).getElementsByClassName(
@@ -74,7 +74,7 @@
         this.descriptionInput = inputElement;
 
         // 値を変更する処理
-        bindInputEvent(inputElement, descriptionElement, description);
+        bindInputEvent(inputElement, descriptionElement, description, true);
       },
     },
   };
