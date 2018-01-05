@@ -2,20 +2,25 @@
   <div class="card task-card" draggable="true" :id="'task-card-'+ task.id" @dragstart="drag_start(task)">
     <div class="card-header">
       <div class="card-subject">
-        <div class="card-title h5" @dblclick="click_subject(task.id, task.subject)">{{task.subject}}</div>
-        <div class="form-group">
-          <input class="form-input d-hide" @blur="change_title(task, titleInput.value)" type="text"
-                 placeholder="task title">
+        <div class="card-title h5" v-show="labelShowState.subject" v-on:dblclick="labelShowState.subject = false">
+          {{task.subject}}
+        </div>
+        <div class="form-group" v-show="!labelShowState.subject">
+          <input class="form-input" type="text" placeholder="task title" v-model="task.subject"
+                 v-on:blur="labelShowState.subject = true" v-on:keyup.enter="labelShowState.subject = true">
         </div>
       </div>
       <!--TODO 担当者表示-->
       <div class="card-subtitle text-gray">担当者：test</div>
     </div>
     <div class="card-description">
-      <div class="card-body" @dblclick="click_description(task.id, task.description)">{{task.description}}</div>
-      <div class="form-group">
-        <textarea class="form-input d-hide" placeholder="task description" rows="3"
-                  @blur="change_description(task, descriptionInput.value)"></textarea>
+      <div class="card-body" v-show="labelShowState.description" v-on:dblclick="labelShowState.description = false">
+        {{task.description}}
+      </div>
+      <div class="form-group" v-show="!labelShowState.description">
+        <textarea class="form-input" placeholder="task description" rows="3"
+                  v-model="task.description" v-on:blur="labelShowState.description = true"
+                  v-on:keyup.enter.ctrl="labelShowState.description = true"></textarea>
       </div>
     </div>
     <div class="card-footer">
@@ -26,30 +31,6 @@
 
 <script>
   /* eslint-disable object-shorthand,no-param-reassign */
-
-  const bindInputEvent = (inputElement, textElement, value, isCtrl) => {
-    // 値を格納する処理
-    inputElement.value = value;
-    inputElement.addEventListener('blur', () => {
-      inputElement.classList.add('d-hide');
-      textElement.classList.remove('d-hide');
-    });
-    inputElement.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && (!isCtrl || (isCtrl && e.ctrlKey))) {
-        const evt = document.createEvent('HTMLEvents');
-        evt.initEvent('blur', true, true);
-        inputElement.dispatchEvent(evt);
-      }
-    });
-
-    // 入力要素を表示するバインド
-    textElement.addEventListener('dblclick', () => {
-      textElement.classList.add('d-hide');
-      inputElement.classList.remove('d-hide');
-      inputElement.focus();
-    });
-  };
-
   export default {
     props: ['task', 'change_title', 'change_description', 'drag_start'],
     name: 'task-card',
@@ -57,24 +38,11 @@
       return {
         titleInput: null,
         descriptionInput: null,
+        labelShowState: {
+          subject: true,
+          description: true,
+        },
       };
-    },
-    mounted: function mounted() {
-      // subject
-      const subjectElement = document.getElementById(`task-card-${this.task.id}`).getElementsByClassName(
-        'card-subject')[0].getElementsByClassName('card-title')[0];
-      const subjectInputElement = document.getElementById(`task-card-${this.task.id}`).getElementsByClassName(
-        'card-subject')[0].getElementsByClassName('form-group')[0].getElementsByTagName('input')[0];
-      this.titleInput = subjectInputElement;
-      bindInputEvent(subjectInputElement, subjectElement, this.task.subject, false);
-
-      // description
-      const descriptionElement = document.getElementById(`task-card-${this.task.id}`).getElementsByClassName(
-        'card-description')[0].getElementsByClassName('card-body')[0];
-      const inputElement = document.getElementById(`task-card-${this.task.id}`).getElementsByClassName(
-        'card-description')[0].getElementsByClassName('form-group')[0].getElementsByTagName('textarea')[0];
-      this.descriptionInput = inputElement;
-      bindInputEvent(inputElement, descriptionElement, this.task.description, true);
     },
   };
 </script>

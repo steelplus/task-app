@@ -3,7 +3,7 @@
     <button class="btn tooltip tooltip-bottom centered" data-add-task-button data-tooltip="未アサインのタスクが表示されます。">
       UNASSIGNED TASKS <i class="icon icon-plus add-icon"></i>
     </button>
-    <div class="modal modal-sm" data-add-task-modal id="modal-id">
+    <div class="modal modal-sm" v-bind:class="{active : isModalActive}" data-add-task-modal id="modal-id">
       <a href="#close" class="modal-overlay" aria-label="Close"></a>
       <div class="modal-container">
         <div class="modal-header">
@@ -55,6 +55,7 @@
         subjectInput: null,
         descriptionInput: null,
         estimateHourInput: null,
+        isModalActive: false,
       };
     },
     mounted: function mounted() {
@@ -63,12 +64,12 @@
       const closeButtons = taskModalElement.getElementsByTagName('a');
       for (const closeButton of closeButtons) {
         closeButton.addEventListener('click', () => {
-          taskModalElement.classList.remove('active');
+          this.isModalActive = false;
         });
       }
       const registerButton = document.querySelector('[data-register-btn]');
       registerButton.addEventListener('click', () => {
-        taskModalElement.classList.remove('active');
+        this.isModalActive = false;
       });
       taskModalElement.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && e.ctrlKey) {
@@ -81,7 +82,7 @@
       // モーダルを開く処理のバインド
       const modalOpenButton = document.querySelector('[data-add-task-button]');
       modalOpenButton.addEventListener('click', () => {
-        taskModalElement.classList.add('active');
+        this.isModalActive = true;
       });
 
       // 各input要素をdataにバインド

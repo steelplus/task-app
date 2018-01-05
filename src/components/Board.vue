@@ -3,22 +3,19 @@
     <div class="column timeline-status1" @dragover.prevent @drop="drag_drop('status1')">
       <add-task-modal :add_task="add_task" />
       <div v-for="task in status1">
-        <task-card :task="task" :change_title="change_title" :change_description="change_description"
-                   :drag_start="drag_start" />
+        <task-card :task="task" :drag_start="drag_start" />
       </div>
     </div>
     <div class="column timeline-status2" @dragover.prevent @drop="drag_drop('status2')">
       <button class="btn tooltip tooltip-bottom centered" data-tooltip="現在アサインされているタスクが表示されます。">ASSIGNED TASKS</button>
       <div v-for="task in status2">
-        <task-card :task="task" :change_title="change_title" :change_description="change_description"
-                   :drag_start="drag_start" />
+        <task-card :task="task" :drag_start="drag_start" />
       </div>
     </div>
     <div class="column timeline-status3" @dragover.prevent @drop="drag_drop('status3')">
       <button class="btn tooltip tooltip-bottom centered" data-tooltip="完了したタスクが表示されます。">FINISHED TASKS</button>
       <div v-for="task in status3">
-        <task-card :task="task" :change_title="change_title" :change_description="change_description"
-                   :drag_start="drag_start" />
+        <task-card :task="task" :drag_start="drag_start" />
       </div>
     </div>
   </div>
@@ -35,14 +32,6 @@
     },
     name: 'board',
     methods: {
-      change_title: function changeTitle(task, value) {
-        // eslint-disable-next-line no-param-reassign
-        task.subject = value;
-      },
-      change_description: function changeDescription(task, value) {
-        // eslint-disable-next-line no-param-reassign
-        task.description = value;
-      },
       drag_start: function dragStart(task) {
         this.draggingTask = task;
       },
