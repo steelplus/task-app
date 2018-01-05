@@ -1,27 +1,34 @@
 <template>
   <div class="columns timeline">
-    <div class="column timeline-status1" @dragover.prevent @drop="drag_drop('status1')">
+    <div class="column timeline-status1">
       <add-task-modal :add_task="add_task" />
-      <div v-for="task in status1">
-        <task-card :task="task" :drag_start="drag_start" />
-      </div>
+      <draggable v-model="status1" :options="{group: 'tasks'}">
+        <div v-for="task in status1" :key="task.index">
+          <task-card :task="task" />
+        </div>
+      </draggable>
     </div>
-    <div class="column timeline-status2" @dragover.prevent @drop="drag_drop('status2')">
+    <div class="column timeline-status2">
       <button class="btn tooltip tooltip-bottom centered" data-tooltip="現在アサインされているタスクが表示されます。">ASSIGNED TASKS</button>
-      <div v-for="task in status2">
-        <task-card :task="task" :drag_start="drag_start" />
-      </div>
+      <draggable v-model="status2" :options="{group: 'tasks'}">
+        <div v-for="task in status2" :key="task.index">
+          <task-card :task="task" />
+        </div>
+      </draggable>
     </div>
-    <div class="column timeline-status3" @dragover.prevent @drop="drag_drop('status3')">
+    <div class="column timeline-status3">
       <button class="btn tooltip tooltip-bottom centered" data-tooltip="完了したタスクが表示されます。">FINISHED TASKS</button>
-      <div v-for="task in status3">
-        <task-card :task="task" :drag_start="drag_start" />
-      </div>
+      <draggable v-model="status3" :options="{group: 'tasks'}">
+        <div v-for="task in status3" :key="task.index">
+          <task-card :task="task" />
+        </div>
+      </draggable>
     </div>
   </div>
 </template>
 
 <script>
+  import Draggable from 'vuedraggable';
   import TaskCard from './TaskCard';
   import AddTaskModal from './AddTaskModal';
 
@@ -29,18 +36,10 @@
     components: {
       AddTaskModal,
       TaskCard,
+      Draggable,
     },
     name: 'board',
     methods: {
-      drag_start: function dragStart(task) {
-        this.draggingTask = task;
-      },
-      drag_drop: function dragDrop(status) {
-        this[this.draggingTask.status] =
-          this[this.draggingTask.status].filter(elm => elm.id !== this.draggingTask.id);
-        this[status] = this[status].concat(this.draggingTask);
-        this.draggingTask.status = status;
-      },
       add_task: function addTask(subject, description, estimateHours) {
         this.status1 = this.status1.concat({
           subject,
@@ -62,6 +61,7 @@
             description: 'タスク1の説明文です。',
             estimateHours: '1',
             status: 'status1',
+            index: 1,
           },
           {
             id: 2,
@@ -70,6 +70,7 @@
             description: 'タスク2の説明文です。',
             estimateHours: '1.5',
             status: 'status1',
+            index: 2,
           },
           {
             id: 3,
@@ -78,6 +79,7 @@
             description: 'タスク3の説明文です。',
             estimateHours: '1.5',
             status: 'status1',
+            index: 3,
           },
         ],
         status2: [],
