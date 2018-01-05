@@ -2,7 +2,7 @@
   <div class="card task-card" draggable="true" :id="'task-card-'+ task.id" @dragstart="drag_start(task)">
     <div class="card-header">
       <div class="card-subject">
-        <div class="card-title h5" v-show="labelShowState.subject" v-on:dblclick="labelShowState.subject = false">
+        <div class="card-title h5" v-show="labelShowState.subject" v-on:click="labelShowState.subject = false">
           {{task.subject}}
         </div>
         <div class="form-group" v-show="!labelShowState.subject">
@@ -14,7 +14,7 @@
       <div class="card-subtitle text-gray">担当者：test</div>
     </div>
     <div class="card-description">
-      <div class="card-body" v-show="labelShowState.description" v-on:dblclick="labelShowState.description = false">
+      <div class="card-body" v-show="labelShowState.description" v-on:click="labelShowState.description = false">
         {{task.description}}
       </div>
       <div class="form-group" v-show="!labelShowState.description">
