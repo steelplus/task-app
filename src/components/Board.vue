@@ -59,7 +59,7 @@
           estimateHours,
           status: 'status1',
           // TODO ID採番
-          id: this.status1.length + 1,
+          id: this.status1.length + this.status2.length + this.status3.length + 1,
         });
       },
     },
