@@ -27,6 +27,7 @@
   /* eslint-disable object-shorthand,no-param-reassign */
 
   const bindInputEvent = (inputElement, textElement, value, isCtrl) => {
+    // 値を格納する処理
     inputElement.value = value;
     inputElement.addEventListener('blur', () => {
       inputElement.classList.add('d-hide');
@@ -40,9 +41,12 @@
       }
     });
 
-    textElement.classList.add('d-hide');
-    inputElement.classList.remove('d-hide');
-    inputElement.focus();
+    // 入力要素を表示するバインド
+    textElement.addEventListener('dblclick', () => {
+      textElement.classList.add('d-hide');
+      inputElement.classList.remove('d-hide');
+      inputElement.focus();
+    });
   };
 
   export default {
@@ -54,28 +58,22 @@
         descriptionInput: null,
       };
     },
-    methods: {
-      click_subject: function clickSubject(id, subject) {
-        // 要素の取得
-        const subjectElement = document.getElementById(`task-card-${id}`).getElementsByClassName(
-          'card-subject')[0].getElementsByClassName('card-title')[0];
-        const inputElement = document.getElementById(`task-card-${id}`).getElementsByClassName(
-          'card-subject')[0].getElementsByClassName('form-group')[0].getElementsByTagName('input')[0];
-        this.titleInput = inputElement;
+    mounted: function mounted() {
+      // subject
+      const subjectElement = document.getElementById(`task-card-${this.task.id}`).getElementsByClassName(
+        'card-subject')[0].getElementsByClassName('card-title')[0];
+      const subjectInputElement = document.getElementById(`task-card-${this.task.id}`).getElementsByClassName(
+        'card-subject')[0].getElementsByClassName('form-group')[0].getElementsByTagName('input')[0];
+      this.titleInput = subjectInputElement;
+      bindInputEvent(subjectInputElement, subjectElement, this.task.subject, false);
 
-        // 値を変更する処理
-        bindInputEvent(inputElement, subjectElement, subject, false);
-      },
-      click_description: function clickDescription(id, description) {
-        const descriptionElement = document.getElementById(`task-card-${id}`).getElementsByClassName(
-          'card-description')[0].getElementsByClassName('card-body')[0];
-        const inputElement = document.getElementById(`task-card-${id}`).getElementsByClassName(
-          'card-description')[0].getElementsByClassName('form-group')[0].getElementsByTagName('textarea')[0];
-        this.descriptionInput = inputElement;
-
-        // 値を変更する処理
-        bindInputEvent(inputElement, descriptionElement, description, true);
-      },
+      // description
+      const descriptionElement = document.getElementById(`task-card-${this.task.id}`).getElementsByClassName(
+        'card-description')[0].getElementsByClassName('card-body')[0];
+      const inputElement = document.getElementById(`task-card-${this.task.id}`).getElementsByClassName(
+        'card-description')[0].getElementsByClassName('form-group')[0].getElementsByTagName('textarea')[0];
+      this.descriptionInput = inputElement;
+      bindInputEvent(inputElement, descriptionElement, this.task.description, true);
     },
   };
 </script>

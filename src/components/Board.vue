@@ -1,7 +1,7 @@
 <template>
   <div class="columns timeline">
     <div class="column timeline-status1" @dragover.prevent @drop="drag_drop('status1')">
-      <button class="btn tooltip tooltip-right centered" data-tooltip="未アサインのタスクが表示されます。">UN ASSIGNED TASKS</button>
+      <add-task-modal />
       <div v-for="task in status1">
         <task-card :task="task" :change_title="change_title" :change_description="change_description"
                    :drag_start="drag_start" />
@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="column timeline-status3" @dragover.prevent @drop="drag_drop('status3')">
-      <button class="btn tooltip tooltip-left centered" data-tooltip="完了したタスクが表示されます。">FINISHED TASKS</button>
+      <button class="btn tooltip tooltip-bottom centered" data-tooltip="完了したタスクが表示されます。">FINISHED TASKS</button>
       <div v-for="task in status3">
         <task-card :task="task" :change_title="change_title" :change_description="change_description"
                    :drag_start="drag_start" />
@@ -26,9 +26,13 @@
 
 <script>
   import TaskCard from './TaskCard';
+  import AddTaskModal from './AddTaskModal';
 
   export default {
-    components: { TaskCard },
+    components: {
+      AddTaskModal,
+      TaskCard,
+    },
     name: 'board',
     methods: {
       change_title: function changeTitle(task, value) {
